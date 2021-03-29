@@ -1,12 +1,12 @@
-const express = require("express");
-const cors = require("cors");
+const { ApolloServer } = require("apollo-server");
+const typeDefs = require("./graphql/typeDefs");
+const resolvers = require("./graphql/resolvers/micsResolvers");
 
-const app = express();
-const port = process.env.PORT || 5000;
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
-app.use(cors());
-app.use(express.json());
-
-app.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
+server.listen({ port: 5000 }).then((res) => {
+  console.log(`Server running at ${res.url}`);
 });
