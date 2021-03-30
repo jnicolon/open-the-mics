@@ -5,10 +5,12 @@ module.exports = gql`
     id: ID!
     name: String!
     host: String!
+    description: String!
+    date: String!
+    totalComedians: Int!
   }
 
   type Query {
-    mics: [Mic]
-    mic(id: ID!): Mic
+    getMics: [Mic]
   }
 `;
