@@ -13,4 +13,14 @@ module.exports = gql`
   type Query {
     getMics: [Mic]
   }
+
+  type Mutation {
+    createMic(
+      name: String!
+      host: String!
+      description: String!
+      date: String!
+      totalComedians: Int!
+    ): Mic
+  }
 `;
