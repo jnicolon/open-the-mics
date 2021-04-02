@@ -1,4 +1,5 @@
 const Mic = require("../../models/micsModels");
+const validateMic = require("../../utils/validateMic");
 
 module.exports = {
   Query: {
@@ -21,14 +22,27 @@ module.exports = {
   },
   Mutation: {
     async createMic(parent, args) {
-      const { name, host, description, date, totalComedians, comedians } = args;
+      const { name, host, description, date, totalComedians } = args;
+
+      const { valid, errors } = validateMic({
+        name,
+        host,
+        description,
+        date,
+        totalComedians,
+      });
+
+      if (!valid) {
+        throw new Error("Errors", { errors });
+      }
+
       const newMic = new Mic({
         name,
         host,
         description,
         date,
         totalComedians,
-        comedians,
+        comedians: [],
       });
       const res = await newMic.save();
 
