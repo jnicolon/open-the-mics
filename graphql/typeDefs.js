@@ -12,6 +12,7 @@ module.exports = gql`
 
   type Query {
     getMics: [Mic]
+    getMic(id: ID!): Mic
   }
 
   type Mutation {

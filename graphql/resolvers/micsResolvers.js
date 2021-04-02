@@ -10,6 +10,14 @@ module.exports = {
         throw new Error(err);
       }
     },
+    async getMic(parent, args) {
+      try {
+        const mic = await Mic.findById(args.id);
+        return mic;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     async createMic(_, args, context, info) {
