@@ -38,17 +38,39 @@ module.exports = {
     async deleteComedian(parent, args) {
       const { micId, comedian } = args;
 
-      const mic = await Mic.findById(micId);
-      const { comedians } = mic;
+      const { comedians } = await Mic.findById(micId);
 
-      comedians.forEach((com, index) => {
-        if (com === comedian) {
-          comedians.splice(index, 1);
-        }
-      });
-      const deleted = await Mic.findByIdAndUpdate(micId, { comedians });
+      if (comedians.includes(comedian)) {
+        comedians.forEach((com, index) => {
+          if (com === comedian) {
+            comedians.splice(index, 1);
+          }
+        });
+        const res = await Mic.findByIdAndUpdate(micId, { comedians });
 
-      return deleted;
+        res.comedians = comedians;
+
+        return res;
+      } else {
+        throw new Error("Comedian not found");
+      }
+    },
+
+    async addComedian(parent, args) {
+      const { micId, comedian } = args;
+
+      if (comedian.trim().length > 0) {
+        const { comedians } = await Mic.findById(micId);
+
+        comedians.push(comedian);
+
+        const res = await Mic.findByIdAndUpdate(micId, { comedians });
+
+        res.comedians = comedians;
+        return res;
+      } else {
+        throw new Error("Comedian must have a name");
+      }
     },
   },
 };
