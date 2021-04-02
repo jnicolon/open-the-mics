@@ -8,6 +8,7 @@ module.exports = gql`
     description: String!
     date: String!
     totalComedians: Int!
+    comedians: [String]
   }
 
   type Query {
@@ -22,6 +23,7 @@ module.exports = gql`
       description: String!
       date: String!
       totalComedians: Int!
+      comedians: [String]!
     ): Mic
   }
 `;

@@ -6,6 +6,7 @@ const micSchema = new Schema({
   description: String,
   date: String,
   totalComedians: Number,
+  comedians: Array,
 });
 
 module.exports = model("Mic", micSchema);

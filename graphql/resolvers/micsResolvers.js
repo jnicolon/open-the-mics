@@ -21,13 +21,14 @@ module.exports = {
   },
   Mutation: {
     async createMic(_, args, context, info) {
-      const { name, host, description, date, totalComedians } = args;
+      const { name, host, description, date, totalComedians, comedians } = args;
       const newMic = new Mic({
         name,
         host,
         description,
         date,
         totalComedians,
+        comedians,
       });
       const res = await newMic.save();
 
