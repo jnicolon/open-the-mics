@@ -25,5 +25,7 @@ module.exports = gql`
       totalComedians: Int!
       comedians: [String]!
     ): Mic
+    addComedian(micId: ID!, comedian: String!): Mic
+    deleteComedian(micId: ID!, comedian: String!): Mic
   }
 `;

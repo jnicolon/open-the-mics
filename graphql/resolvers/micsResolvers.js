@@ -20,7 +20,7 @@ module.exports = {
     },
   },
   Mutation: {
-    async createMic(_, args, context, info) {
+    async createMic(parent, args) {
       const { name, host, description, date, totalComedians, comedians } = args;
       const newMic = new Mic({
         name,
@@ -33,6 +33,22 @@ module.exports = {
       const res = await newMic.save();
 
       return res;
+    },
+
+    async deleteComedian(parent, args) {
+      const { micId, comedian } = args;
+
+      const mic = await Mic.findById(micId);
+      const { comedians } = mic;
+
+      comedians.forEach((com, index) => {
+        if (com === comedian) {
+          comedians.splice(index, 1);
+        }
+      });
+      const deleted = await Mic.findByIdAndUpdate(micId, { comedians });
+
+      return deleted;
     },
   },
 };
