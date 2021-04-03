@@ -9,6 +9,7 @@ module.exports = gql`
     date: String!
     totalComedians: Int!
     comedians: [String]
+    hostUrl: String!
   }
 
   type Query {
@@ -24,6 +25,7 @@ module.exports = gql`
       date: String!
       totalComedians: Int!
     ): Mic
+    deleteMic(micId: String!): Mic
     addComedian(micId: ID!, comedian: String!): Mic
     deleteComedian(micId: ID!, comedian: String!): Mic
   }

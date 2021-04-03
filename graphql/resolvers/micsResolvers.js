@@ -1,5 +1,6 @@
 const Mic = require("../../models/micsModels");
 const validateMic = require("../../utils/validateMic");
+const crypto = require("crypto-random-string");
 
 module.exports = {
   Query: {
@@ -36,17 +37,44 @@ module.exports = {
         throw new Error("Errors", { errors });
       }
 
+      //Create the link for editing the mic
+      const hostUrl = crypto({ length: 15 });
+
       const newMic = new Mic({
         name,
         host,
         description,
         date,
         totalComedians,
+        hostUrl,
         comedians: [],
       });
       const res = await newMic.save();
 
       return res;
+    },
+
+    async deleteMic(parent, args) {
+      const { micId } = args;
+      const res = await Mic.findByIdAndDelete(micId);
+      return res;
+    },
+
+    async addComedian(parent, args) {
+      const { micId, comedian } = args;
+
+      if (comedian.trim().length > 0) {
+        const { comedians } = await Mic.findById(micId);
+
+        comedians.push(comedian);
+
+        const res = await Mic.findByIdAndUpdate(micId, { comedians });
+
+        res.comedians = comedians;
+        return res;
+      } else {
+        throw new Error("Comedian must have a name");
+      }
     },
 
     async deleteComedian(parent, args) {
@@ -67,23 +95,6 @@ module.exports = {
         return res;
       } else {
         throw new Error("Comedian not found");
-      }
-    },
-
-    async addComedian(parent, args) {
-      const { micId, comedian } = args;
-
-      if (comedian.trim().length > 0) {
-        const { comedians } = await Mic.findById(micId);
-
-        comedians.push(comedian);
-
-        const res = await Mic.findByIdAndUpdate(micId, { comedians });
-
-        res.comedians = comedians;
-        return res;
-      } else {
-        throw new Error("Comedian must have a name");
       }
     },
   },
