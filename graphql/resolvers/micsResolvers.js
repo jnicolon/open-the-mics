@@ -67,6 +67,7 @@ module.exports = {
       if (comedian.trim().length > 0) {
         const { comedians, totalComedians } = await Mic.findById(micId);
 
+        //Check if the mic is full
         if (comedians.length < totalComedians) {
           comedians.push(comedian);
 
