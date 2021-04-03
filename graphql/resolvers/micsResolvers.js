@@ -65,9 +65,9 @@ module.exports = {
 
       //Check if the comedian has a name
       if (comedian.trim().length > 0) {
-        const { comedians } = await Mic.findById(micId);
+        const { comedians, totalComedians } = await Mic.findById(micId);
 
-        if (comedian.length < totalComedians - 1) {
+        if (comedians.length < totalComedians) {
           comedians.push(comedian);
 
           const res = await Mic.findByIdAndUpdate(micId, { comedians });
