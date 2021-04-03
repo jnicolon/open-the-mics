@@ -63,15 +63,20 @@ module.exports = {
     async addComedian(parent, args) {
       const { micId, comedian } = args;
 
+      //Check if the comedian has a name
       if (comedian.trim().length > 0) {
         const { comedians } = await Mic.findById(micId);
 
-        comedians.push(comedian);
+        if (comedian.length < totalComedians - 1) {
+          comedians.push(comedian);
 
-        const res = await Mic.findByIdAndUpdate(micId, { comedians });
+          const res = await Mic.findByIdAndUpdate(micId, { comedians });
 
-        res.comedians = comedians;
-        return res;
+          res.comedians = comedians;
+          return res;
+        } else {
+          throw new Error("Mic is full");
+        }
       } else {
         throw new Error("Comedian must have a name");
       }
