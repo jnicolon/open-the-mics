@@ -7,6 +7,7 @@ import Navbar from "./components/nav/Navbar";
 import CreateMicPage from "./pages/CreateMicPage";
 import MicHostPage from "./pages/MicHostPage";
 import MicPage from "./pages/MicPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/createamic" component={CreateMicPage} />
           <Route exact path="/hosts/:hosturl" component={MicHostPage} />
           <Route exact path="/mics/:micid" component={MicPage} />
+          <Route exact path="/about" component={AboutPage} />
         </Switch>
       </Router>
     </ApolloProvider>

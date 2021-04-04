@@ -14,6 +14,9 @@ function Navbar() {
         <li>
           <Link to="/">See all mics</Link>
         </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
       </ul>
     </nav>
   );
