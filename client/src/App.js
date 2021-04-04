@@ -1,32 +1,17 @@
-import { ApolloProvider, useQuery, gql } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import client from "./ApolloClient";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-const getMics = gql`
-  query {
-    getMics {
-      name
-      id
-      comedians
-    }
-  }
-`;
-
-function LoadData() {
-  const { loading, error, data } = useQuery(getMics);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>`Error ${error}`</p>;
-
-  return data.getMics.map((element) => {
-    return <h3>{element.name}</h3>;
-  });
-}
+import Home from "./pages/Home";
 
 function App() {
   return (
     <ApolloProvider client={client}>
-      <h1>Hello from appollo</h1>
-      <LoadData></LoadData>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </Router>
     </ApolloProvider>
   );
 }
