@@ -1,0 +1,23 @@
+.navbar-container {
+  padding: 10px;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    li {
+      font-size: 1.5rem;
+      font-family: $font-primary;
+    }
+  }
+}
+
+.logo {
+  font-family: $logo-font;
+  letter-spacing: 1px;
+  color: black;
+  font-size: 4rem;
+  cursor: pointer;
+}

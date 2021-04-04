@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+$logo-font: "Permanent Marker", cursive;
+// $logo-font: "Londrina Solid", cursive;
+$font-primary: "Open Sans", sans-serif;
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
