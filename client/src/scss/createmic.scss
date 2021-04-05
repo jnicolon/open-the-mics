@@ -1,0 +1,24 @@
+.create-mic-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  @include flex-column;
+
+  p {
+    font-family: $font-primary;
+    font-size: 1.3rem;
+  }
+
+  form {
+    @include flex-column;
+    height: 600px;
+    width: 325px;
+    justify-content: space-between;
+    span {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+}

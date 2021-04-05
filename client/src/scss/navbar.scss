@@ -9,9 +9,10 @@
     padding: 5px;
     height: 50px;
     li {
-      padding: 5px;
-      font-size: 1.5rem;
+      padding: 0px 0px 5px 0px;
+      font-size: 1rem;
       font-family: $font-primary;
+      text-transform: uppercase;
 
       &:hover {
         border-bottom: solid 2px black;
@@ -28,16 +29,22 @@
   cursor: pointer;
 }
 
+.navbar-submenu-selected {
+  border-bottom: solid 2px black;
+}
+
 @media only screen and (max-width: 600px) {
   .logo {
-    font-size: 3.5rem;
+    font-size: 2.8rem;
   }
   .navbar-container {
     padding: 10px;
+    padding-bottom: 0px;
 
     ul {
       li {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
       }
     }
   }

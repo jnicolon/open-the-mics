@@ -4,7 +4,8 @@
 
 $logo-font: "Permanent Marker", cursive;
 // $logo-font: "Londrina Solid", cursive;
-$font-primary: "Open Sans", sans-serif;
+// $font-primary: "Open Sans", sans-serif;
+$font-primary: "Roboto", sans-serif;
 
 @mixin flex-column {
   display: flex;
