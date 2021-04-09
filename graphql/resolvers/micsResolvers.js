@@ -23,14 +23,28 @@ module.exports = {
   },
   Mutation: {
     async createMic(parent, args) {
-      const { name, host, description, date, totalComedians } = args;
+      const {
+        micName,
+        hostName,
+        notes,
+        date,
+        capacity,
+        adress,
+        city,
+        postal,
+        venue,
+      } = args;
 
       const { valid, errors } = validateMic({
-        name,
-        host,
-        description,
+        micName,
+        hostName,
+        notes,
         date,
-        totalComedians,
+        capacity,
+        adress,
+        city,
+        postal,
+        venue,
       });
 
       if (!valid) {
@@ -41,13 +55,17 @@ module.exports = {
       const hostUrl = crypto({ length: 15 });
 
       const newMic = new Mic({
-        name,
-        host,
-        description,
+        micName,
+        hostName,
+        notes,
         date,
-        totalComedians,
+        capacity,
         hostUrl,
         comedians: [],
+        adress,
+        city,
+        postal,
+        venue,
       });
       const res = await newMic.save();
 

@@ -12,6 +12,11 @@ const useStyles = makeStyles({
   btn: {
     marginTop: "20px",
   },
+  error: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      fontSize: "0.8rem",
+    },
+  },
 });
 
 function CreateMicPage() {
@@ -74,12 +79,16 @@ function CreateMicPage() {
       city,
       postal,
       payment,
-      capacity,
+      capacity: parseInt(capacity),
       notes,
     };
 
+    //TODO:Implement GraphQL query
     console.log(mic);
   };
+
+  //TODO:Implement form validation
+
   return (
     <div className="create-mic-container">
       <p>Create a Mic</p>
@@ -90,7 +99,12 @@ function CreateMicPage() {
           fullWidth
           value={name}
           onChange={handleChange}
-          className={classes.root}
+          //TODO: style the errors to be smaller
+          error
+          helperText="Incorrect text"
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <span>
           <div style={{ width: "175px" }}>
@@ -106,6 +120,11 @@ function CreateMicPage() {
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
+              error
+              helperText="Incorrect text"
+              FormHelperTextProps={{
+                className: classes.error,
+              }}
             />
           </div>
           <div style={{ width: "125px" }}>
@@ -118,6 +137,9 @@ function CreateMicPage() {
                 "aria-label": "change time",
               }}
               onChange={(date) => setDate(date)}
+              FormHelperTextProps={{
+                className: classes.error,
+              }}
             />
           </div>
         </span>
@@ -128,14 +150,20 @@ function CreateMicPage() {
           value={host}
           onChange={handleChange}
           className={classes.root}
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <TextField
-          id="name"
+          id="venue"
           label="Venue"
           fullWidth
           value={venue}
           onChange={handleChange}
           className={classes.root}
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <TextField
           id="adress"
@@ -144,6 +172,9 @@ function CreateMicPage() {
           value={adress}
           onChange={handleChange}
           className={classes.root}
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <span>
           <div style={{ width: "150px" }}>
@@ -154,6 +185,9 @@ function CreateMicPage() {
               value={city}
               onChange={handleChange}
               className={classes.root}
+              FormHelperTextProps={{
+                className: classes.error,
+              }}
             />
           </div>
           <div style={{ width: "150px" }}>
@@ -163,6 +197,11 @@ function CreateMicPage() {
               value={postal}
               onChange={handleChange}
               className={classes.root}
+              FormHelperTextProps={{
+                className: classes.error,
+              }}
+              error
+              helperText="Incorrect text"
             />
           </div>
         </span>
@@ -173,15 +212,21 @@ function CreateMicPage() {
           value={payment}
           onChange={handleChange}
           className={classes.root}
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <TextField
-          id="total"
-          type="number"
+          id="capacity"
+          type="text"
           label="Mic capacity"
           fullWidth
           value={capacity}
           onChange={handleChange}
           className={classes.root}
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <TextField
           id="description"
@@ -191,6 +236,9 @@ function CreateMicPage() {
           value={notes}
           onChange={handleChange}
           className={classes.root}
+          FormHelperTextProps={{
+            className: classes.error,
+          }}
         />
         <Button type="submit" variant="contained" className={classes.btn}>
           Create Mic

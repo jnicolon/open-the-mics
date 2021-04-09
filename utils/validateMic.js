@@ -1,25 +1,52 @@
 module.exports = (mic) => {
+  const {
+    micName,
+    hostName,
+    date,
+    capacity,
+    adress,
+    city,
+    postal,
+    venue,
+  } = mic;
+
   const errors = {};
 
-  if (mic.name.trim() === "") {
-    errors.name = "The mic has to have a name";
+  if (micName.trim() === "") {
+    errors.micName = "The mic has to have a name";
   }
 
-  if (mic.host.trim() === "") {
-    errors.host = "The mic has to have a host";
+  if (hostName.trim() === "") {
+    errors.hostName = "The mic has to have a host";
   }
 
-  const micDate = new Date(mic.date);
+  const micDate = new Date(date);
   const todayDate = new Date();
 
-  if (mic.date.trim() === "") {
+  if (date.trim() === "") {
     errors.date = "The mic has to have a date";
   } else if (micDate.getTime() < todayDate.getTime()) {
     errors.date = "The mic must be in the future";
   }
 
-  if (mic.totalComedians < 5) {
-    errors.totalComedians = "The mic must have at least 5 comedians";
+  if (capacity < 5) {
+    errors.capacity = "The mic must have at least 5 comedians";
+  }
+
+  if (adress.trim() === "") {
+    error.adress = "Adress can't be empty";
+  }
+
+  if (city.trim() === "") {
+    error.city = "City can't be empty";
+  }
+
+  if (postal.trim() === "") {
+    error.postal = "Postal code can't be empty";
+  }
+
+  if (venue.trim() === "") {
+    error.city = "Venue can't be empty";
   }
 
   return {

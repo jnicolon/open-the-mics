@@ -1,13 +1,17 @@
 const { model, Schema } = require("mongoose");
 
 const micSchema = new Schema({
-  name: String,
-  host: String,
-  description: String,
+  micName: String,
+  hostName: String,
+  notes: String,
   date: String,
-  totalComedians: Number,
+  capacity: Number,
   comedians: Array,
   hostUrl: String,
+  adress: String,
+  city: String,
+  postal: String,
+  venue: String,
 });
 
 module.exports = model("Mic", micSchema);

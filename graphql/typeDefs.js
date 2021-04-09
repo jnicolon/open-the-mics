@@ -3,13 +3,17 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   type Mic {
     id: ID!
-    name: String!
-    host: String!
-    description: String!
+    micName: String!
+    hostName: String!
+    notes: String
     date: String!
-    totalComedians: Int!
+    capacity: Int!
     comedians: [String]
     hostUrl: String!
+    adress: String!
+    city: String!
+    postal: String!
+    venue: String!
   }
 
   type Query {
@@ -19,11 +23,16 @@ module.exports = gql`
 
   type Mutation {
     createMic(
-      name: String!
-      host: String!
-      description: String!
+      micName: String!
+      hostName: String!
+      notes: String
       date: String!
-      totalComedians: Int!
+      capacity: Int!
+      comedians: [String]
+      adress: String!
+      city: String!
+      postal: String!
+      venue: String!
     ): Mic
     deleteMic(micId: String!): Mic
     addComedian(micId: ID!, comedian: String!): Mic
