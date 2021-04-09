@@ -5,7 +5,7 @@ module.exports = gql`
     id: ID!
     micName: String!
     hostName: String!
-    notes: String
+    notes: String!
     date: String!
     capacity: Int!
     comedians: [String]
@@ -14,6 +14,7 @@ module.exports = gql`
     city: String!
     postal: String!
     venue: String!
+    payment: String!
   }
 
   type Query {
@@ -25,7 +26,7 @@ module.exports = gql`
     createMic(
       micName: String!
       hostName: String!
-      notes: String
+      notes: String!
       date: String!
       capacity: Int!
       comedians: [String]
@@ -33,6 +34,7 @@ module.exports = gql`
       city: String!
       postal: String!
       venue: String!
+      payment: String!
     ): Mic
     deleteMic(micId: String!): Mic
     addComedian(micId: ID!, comedian: String!): Mic

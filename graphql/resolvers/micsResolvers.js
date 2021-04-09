@@ -33,6 +33,7 @@ module.exports = {
         city,
         postal,
         venue,
+        payment,
       } = args;
 
       const { valid, errors } = validateMic({
@@ -45,6 +46,7 @@ module.exports = {
         city,
         postal,
         venue,
+        payment,
       });
 
       if (!valid) {
@@ -66,6 +68,7 @@ module.exports = {
         city,
         postal,
         venue,
+        payment,
       });
       const res = await newMic.save();
 

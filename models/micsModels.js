@@ -12,6 +12,7 @@ const micSchema = new Schema({
   city: String,
   postal: String,
   venue: String,
+  payment: String,
 });
 
 module.exports = model("Mic", micSchema);

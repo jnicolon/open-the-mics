@@ -8,6 +8,7 @@ module.exports = (mic) => {
     city,
     postal,
     venue,
+    payment,
   } = mic;
 
   const errors = {};
@@ -46,7 +47,10 @@ module.exports = (mic) => {
   }
 
   if (venue.trim() === "") {
-    error.city = "Venue can't be empty";
+    error.venue = "Venue can't be empty";
+  }
+  if (payment.trim() === "") {
+    error.payment = "Payment type can't be empty";
   }
 
   return {
