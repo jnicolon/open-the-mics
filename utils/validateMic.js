@@ -32,6 +32,8 @@ module.exports = (mic) => {
 
   if (capacity < 5) {
     errors.capacity = "The mic must have at least 5 comedians";
+  } else if (capacity > 40) {
+    errors.capacity = "Maximum capacity for a mic is 40 comedians";
   }
 
   if (adress.trim() === "") {

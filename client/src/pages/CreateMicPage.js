@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { KeyboardDatePicker, KeyboardTimePicker } from "@material-ui/pickers";
 import moment from "moment";
+import { useMutation, gql } from "@apollo/client";
 
 const useStyles = makeStyles({
   root: {
@@ -17,9 +18,50 @@ const useStyles = makeStyles({
       fontSize: "0.8rem",
     },
   },
+  sliderWidth: {
+    width: "50px",
+  },
 });
 
+const ADD_MIC = gql`
+  mutation createMic(
+    $micName: String!
+    $hostName: String!
+    $notes: String!
+    $date: String!
+    $capacity: Int!
+    $adress: String!
+    $city: String!
+    $postal: String!
+    $venue: String!
+    $payment: String!
+  ) {
+    createMic(
+      micName: $micName
+      hostName: $hostName
+      notes: $notes
+      date: $date
+      capacity: $capacity
+      adress: $adress
+      city: $city
+      postal: $postal
+      venue: $venue
+      payment: $payment
+    ) {
+      micName
+      hostUrl
+      id
+    }
+  }
+`;
+
 function CreateMicPage() {
+  const [addMic, { data }] = useMutation(ADD_MIC, {
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+  });
+  //
   const [name, setName] = useState("");
   const [date, setDate] = useState();
   const [host, setHost] = useState("");
@@ -29,7 +71,10 @@ function CreateMicPage() {
   const [postal, setPostal] = useState("");
   const [payment, setPayment] = useState("");
   const [capacity, setCapacity] = useState("");
+  const [capacityError, setCapacityError] = useState("");
   const [notes, setNotes] = useState("");
+
+  const [errors, setErrors] = useState("");
 
   const classes = useStyles();
 
@@ -71,9 +116,9 @@ function CreateMicPage() {
     e.preventDefault();
 
     const mic = {
-      name,
+      micName: name,
       date: moment(date).format(),
-      host,
+      hostName: host,
       venue,
       adress,
       city,
@@ -83,15 +128,19 @@ function CreateMicPage() {
       notes,
     };
 
-    //TODO:Implement GraphQL query
-    console.log(mic);
+    if (mic.capacity && errors !== "") {
+      addMic({ variables: mic });
+    } else {
+      setCapacityError("This value should be a number");
+    }
   };
+
+  console.log(errors);
 
   //TODO:Implement form validation
 
   return (
     <div className="create-mic-container">
-      <p>Create a Mic</p>
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           id="name"
@@ -99,9 +148,8 @@ function CreateMicPage() {
           fullWidth
           value={name}
           onChange={handleChange}
-          //TODO: style the errors to be smaller
-          error
-          helperText="Incorrect text"
+          // error
+          // helperText="Incorrect text"
           FormHelperTextProps={{
             className: classes.error,
           }}
@@ -120,8 +168,8 @@ function CreateMicPage() {
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
-              error
-              helperText="Incorrect text"
+              // error
+              // helperText="Incorrect text"
               FormHelperTextProps={{
                 className: classes.error,
               }}
@@ -200,14 +248,14 @@ function CreateMicPage() {
               FormHelperTextProps={{
                 className: classes.error,
               }}
-              error
-              helperText="Incorrect text"
+              // error
+              // helperText="Incorrect text"
             />
           </div>
         </span>
         <TextField
           id="payment"
-          label="Payment"
+          label="Payment information"
           fullWidth
           value={payment}
           onChange={handleChange}
@@ -219,7 +267,7 @@ function CreateMicPage() {
         <TextField
           id="capacity"
           type="text"
-          label="Mic capacity"
+          label="Number of max comedians for the mic"
           fullWidth
           value={capacity}
           onChange={handleChange}
@@ -227,10 +275,14 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
+          error={capacityError === "" ? false : true}
+          helperText={capacityError === "" ? "" : capacityError}
         />
+
         <TextField
-          id="description"
+          id="notes"
           label="Notes"
+          type="text"
           multiline
           fullWidth
           value={notes}

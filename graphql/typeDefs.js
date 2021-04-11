@@ -5,7 +5,7 @@ module.exports = gql`
     id: ID!
     micName: String!
     hostName: String!
-    notes: String!
+    notes: String
     date: String!
     capacity: Int!
     comedians: [String]
