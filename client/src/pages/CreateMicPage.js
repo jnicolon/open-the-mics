@@ -34,6 +34,17 @@ function CreateMicPage() {
     update(proxy, result) {
       console.log(result);
       //here goes the set modal to true
+      setValues({
+        micName: "",
+        hostName: "",
+        venue: "",
+        adress: "",
+        city: "",
+        postal: "",
+        payment: "",
+        capacity: "",
+        notes: "",
+      });
     },
     onError(err) {
       if (err) {
@@ -41,8 +52,6 @@ function CreateMicPage() {
       }
     },
   });
-
-  console.log(errors);
 
   const [values, setValues] = useState({
     micName: "",
@@ -76,32 +85,12 @@ function CreateMicPage() {
       notes: values.notes,
     };
 
-    console.log(mic.capacity);
-
     addMic({ variables: mic });
-
-    setValues({
-      micName: "",
-      hostName: "",
-      venue: "",
-      adress: "",
-      city: "",
-      postal: "",
-      payment: "",
-      capacity: "",
-      notes: "",
-    });
 
     setDate(new Date());
   };
 
-  console.log(loading);
-
-  //TODO:Implement form validation
-
-  //TODO: creted mic modal with links
-
-  console.log(Object.values(errors));
+  //TODO: create mic modal with links
 
   return (
     <div className="create-mic-container">
@@ -112,7 +101,7 @@ function CreateMicPage() {
           fullWidth
           value={values.micName}
           onChange={handleChange}
-          error={Object.keys(errors).length > 0}
+          error={errors.micName}
           helperText={errors.micName}
           FormHelperTextProps={{
             className: classes.error,
@@ -132,7 +121,7 @@ function CreateMicPage() {
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
-              error={Object.keys(errors).length > 0}
+              error={errors.date}
               helperText={errors.date}
               FormHelperTextProps={{
                 className: classes.error,
@@ -165,7 +154,7 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
-          error={Object.keys(errors).length > 0}
+          error={errors.hostName}
           helperText={errors.hostName}
         />
         <TextField
@@ -178,7 +167,7 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
-          error={Object.keys(errors).length > 0}
+          error={errors.venue}
           helperText={errors.venue}
         />
         <TextField
@@ -191,7 +180,7 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
-          error={Object.keys(errors).length > 0}
+          error={errors.adress}
           helperText={errors.adress}
         />
         <span>
@@ -206,7 +195,7 @@ function CreateMicPage() {
               FormHelperTextProps={{
                 className: classes.error,
               }}
-              error={Object.keys(errors).length > 0}
+              error={errors.city}
               helperText={errors.city}
             />
           </div>
@@ -220,7 +209,7 @@ function CreateMicPage() {
               FormHelperTextProps={{
                 className: classes.error,
               }}
-              error={Object.keys(errors).length > 0}
+              error={errors.postal}
               helperText={errors.postal}
             />
           </div>
@@ -235,13 +224,13 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
-          error={Object.keys(errors).length > 0}
+          error={errors.payment}
           helperText={errors.payment}
         />
         <TextField
           id="capacity"
           type="text"
-          label="Total number of comedians (max 40)"
+          label="Total comedians (max 40)"
           fullWidth
           value={values.capacity}
           onChange={handleChange}
@@ -249,7 +238,7 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
-          error={Object.keys(errors).length > 0}
+          error={errors.capacity}
           helperText={errors.capacity}
         />
 
