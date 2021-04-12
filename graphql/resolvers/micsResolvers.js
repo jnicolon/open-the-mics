@@ -2,6 +2,8 @@ const Mic = require("../../models/micsModels");
 const validateMic = require("../../utils/validateMic");
 const crypto = require("crypto-random-string");
 
+const { UserInputError } = require("apollo-server");
+
 module.exports = {
   Query: {
     async getMics() {
@@ -50,7 +52,7 @@ module.exports = {
       });
 
       if (!valid) {
-        throw new Error("Errors", { errors });
+        throw new UserInputError("InputError", { errors });
       }
 
       //Create the link for editing the mic
@@ -97,10 +99,10 @@ module.exports = {
           res.comedians = comedians;
           return res;
         } else {
-          throw new Error("Mic is full");
+          throw new UserInputError("Mic is full");
         }
       } else {
-        throw new Error("Comedian must have a name");
+        throw new UserInputError("Comedian must have a name");
       }
     },
 
@@ -121,7 +123,7 @@ module.exports = {
 
         return res;
       } else {
-        throw new Error("Comedian not found");
+        throw new UserInputError("Comedian not found");
       }
     },
   },

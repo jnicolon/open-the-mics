@@ -7,7 +7,7 @@ module.exports = gql`
     hostName: String!
     notes: String
     date: String!
-    capacity: Int!
+    capacity: Int
     comedians: [String]
     hostUrl: String!
     adress: String!
@@ -28,8 +28,7 @@ module.exports = gql`
       hostName: String!
       notes: String!
       date: String!
-      capacity: Int!
-      comedians: [String]
+      capacity: Int
       adress: String!
       city: String!
       postal: String!

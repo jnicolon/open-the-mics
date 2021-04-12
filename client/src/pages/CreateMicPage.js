@@ -4,7 +4,8 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { KeyboardDatePicker, KeyboardTimePicker } from "@material-ui/pickers";
 import moment from "moment";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { ADD_MIC } from "../queries/queries";
 
 const useStyles = makeStyles({
   root: {
@@ -23,119 +24,71 @@ const useStyles = makeStyles({
   },
 });
 
-const ADD_MIC = gql`
-  mutation createMic(
-    $micName: String!
-    $hostName: String!
-    $notes: String!
-    $date: String!
-    $capacity: Int!
-    $adress: String!
-    $city: String!
-    $postal: String!
-    $venue: String!
-    $payment: String!
-  ) {
-    createMic(
-      micName: $micName
-      hostName: $hostName
-      notes: $notes
-      date: $date
-      capacity: $capacity
-      adress: $adress
-      city: $city
-      postal: $postal
-      venue: $venue
-      payment: $payment
-    ) {
-      micName
-      hostUrl
-      id
-    }
-  }
-`;
-
 function CreateMicPage() {
-  const [addMic, { data }] = useMutation(ADD_MIC, {
-    onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
-    },
-  });
-  //
-  const [name, setName] = useState("");
-  const [date, setDate] = useState();
-  const [host, setHost] = useState("");
-  const [venue, setVenue] = useState("");
-  const [adress, setAdress] = useState("");
-  const [city, setCity] = useState("");
-  const [postal, setPostal] = useState("");
-  const [payment, setPayment] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [capacityError, setCapacityError] = useState("");
-  const [notes, setNotes] = useState("");
-
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
+  const [date, setDate] = useState(new Date());
 
   const classes = useStyles();
 
+  const [addMic, { loading, error }] = useMutation(ADD_MIC, {
+    update(proxy, result) {
+      console.log(result);
+    },
+    onError(err) {
+      console.log(err.graphQLErrors);
+    },
+  });
+
+  const [values, setValues] = useState({
+    micName: "",
+    hostName: "",
+    venue: "",
+    adress: "",
+    city: "",
+    postal: "",
+    payment: "",
+    capacity: "",
+    notes: "",
+  });
+
   const handleChange = (e) => {
-    switch (e.target.id) {
-      case "name":
-        setName(e.target.value);
-        break;
-      case "host":
-        setHost(e.target.value);
-        break;
-      case "venue":
-        setVenue(e.target.value);
-        break;
-      case "adress":
-        setAdress(e.target.value);
-        break;
-      case "city":
-        setCity(e.target.value);
-        break;
-      case "postal":
-        setPostal(e.target.value);
-        break;
-      case "payment":
-        setPayment(e.target.value);
-        break;
-      case "capacity":
-        setCapacity(e.target.value);
-        break;
-      case "notes":
-        setNotes(e.target.value);
-        break;
-      default:
-        break;
-    }
+    setValues({ ...values, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const mic = {
-      micName: name,
+      micName: values.micName,
       date: moment(date).format(),
-      hostName: host,
-      venue,
-      adress,
-      city,
-      postal,
-      payment,
-      capacity: parseInt(capacity),
-      notes,
+      hostName: values.hostName,
+      venue: values.venue,
+      adress: values.adress,
+      city: values.city,
+      postal: values.city,
+      payment: values.payment,
+      capacity: parseInt(values.capacity),
+      notes: values.notes,
     };
 
-    if (mic.capacity && errors !== "") {
-      addMic({ variables: mic });
-    } else {
-      setCapacityError("This value should be a number");
-    }
+    addMic({ variables: mic });
+
+    setValues({
+      micName: "",
+      hostName: "",
+      venue: "",
+      adress: "",
+      city: "",
+      postal: "",
+      payment: "",
+      capacity: "",
+      notes: "",
+    });
+
+    setDate(new Date());
   };
 
-  console.log(errors);
+  console.log(loading);
 
   //TODO:Implement form validation
 
@@ -143,10 +96,10 @@ function CreateMicPage() {
     <div className="create-mic-container">
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
-          id="name"
+          id="micName"
           label="Mic Name"
           fullWidth
-          value={name}
+          value={values.micName}
           onChange={handleChange}
           // error
           // helperText="Incorrect text"
@@ -192,10 +145,10 @@ function CreateMicPage() {
           </div>
         </span>
         <TextField
-          id="host"
+          id="hostName"
           label="Host Name"
           fullWidth
-          value={host}
+          value={values.hostName}
           onChange={handleChange}
           className={classes.root}
           FormHelperTextProps={{
@@ -206,7 +159,7 @@ function CreateMicPage() {
           id="venue"
           label="Venue"
           fullWidth
-          value={venue}
+          value={values.venue}
           onChange={handleChange}
           className={classes.root}
           FormHelperTextProps={{
@@ -217,7 +170,7 @@ function CreateMicPage() {
           id="adress"
           label="Adress"
           fullWidth
-          value={adress}
+          value={values.adress}
           onChange={handleChange}
           className={classes.root}
           FormHelperTextProps={{
@@ -230,7 +183,7 @@ function CreateMicPage() {
               size="small"
               id="city"
               label="City"
-              value={city}
+              value={values.city}
               onChange={handleChange}
               className={classes.root}
               FormHelperTextProps={{
@@ -242,7 +195,7 @@ function CreateMicPage() {
             <TextField
               id="postal"
               label="Postal Code"
-              value={postal}
+              value={values.postal}
               onChange={handleChange}
               className={classes.root}
               FormHelperTextProps={{
@@ -257,7 +210,7 @@ function CreateMicPage() {
           id="payment"
           label="Payment information"
           fullWidth
-          value={payment}
+          value={values.payment}
           onChange={handleChange}
           className={classes.root}
           FormHelperTextProps={{
@@ -269,14 +222,14 @@ function CreateMicPage() {
           type="text"
           label="Number of max comedians for the mic"
           fullWidth
-          value={capacity}
+          value={values.capacity}
           onChange={handleChange}
           className={classes.root}
           FormHelperTextProps={{
             className: classes.error,
           }}
-          error={capacityError === "" ? false : true}
-          helperText={capacityError === "" ? "" : capacityError}
+          // error={capacityError === "" ? false : true}
+          // helperText={capacityError === "" ? "" : capacityError}
         />
 
         <TextField
@@ -285,7 +238,7 @@ function CreateMicPage() {
           type="text"
           multiline
           fullWidth
-          value={notes}
+          value={values.notes}
           onChange={handleChange}
           className={classes.root}
           FormHelperTextProps={{

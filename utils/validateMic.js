@@ -37,22 +37,22 @@ module.exports = (mic) => {
   }
 
   if (adress.trim() === "") {
-    error.adress = "Adress can't be empty";
+    errors.adress = "Adress can't be empty";
   }
 
   if (city.trim() === "") {
-    error.city = "City can't be empty";
+    errors.city = "City can't be empty";
   }
 
   if (postal.trim() === "") {
-    error.postal = "Postal code can't be empty";
+    errors.postal = "Postal code can't be empty";
   }
 
   if (venue.trim() === "") {
-    error.venue = "Venue can't be empty";
+    errors.venue = "Venue can't be empty";
   }
   if (payment.trim() === "") {
-    error.payment = "Payment type can't be empty";
+    errors.payment = "Payment type can't be empty";
   }
 
   return {
