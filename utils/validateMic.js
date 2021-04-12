@@ -30,7 +30,9 @@ module.exports = (mic) => {
     errors.date = "The mic must be in the future";
   }
 
-  if (capacity < 5) {
+  if (capacity === null) {
+    errors.capacity = "Input must be a number";
+  } else if (capacity < 5) {
     errors.capacity = "The mic must have at least 5 comedians";
   } else if (capacity > 40) {
     errors.capacity = "Maximum capacity for a mic is 40 comedians";

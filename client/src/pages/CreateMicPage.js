@@ -30,14 +30,19 @@ function CreateMicPage() {
 
   const classes = useStyles();
 
-  const [addMic, { loading, error }] = useMutation(ADD_MIC, {
+  const [addMic, { loading }] = useMutation(ADD_MIC, {
     update(proxy, result) {
       console.log(result);
+      //here goes the set modal to true
     },
     onError(err) {
-      console.log(err.graphQLErrors);
+      if (err) {
+        setErrors(err.graphQLErrors[0].extensions.errors);
+      }
     },
   });
+
+  console.log(errors);
 
   const [values, setValues] = useState({
     micName: "",
@@ -71,6 +76,8 @@ function CreateMicPage() {
       notes: values.notes,
     };
 
+    console.log(mic.capacity);
+
     addMic({ variables: mic });
 
     setValues({
@@ -92,6 +99,10 @@ function CreateMicPage() {
 
   //TODO:Implement form validation
 
+  //TODO: creted mic modal with links
+
+  console.log(Object.values(errors));
+
   return (
     <div className="create-mic-container">
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -101,8 +112,8 @@ function CreateMicPage() {
           fullWidth
           value={values.micName}
           onChange={handleChange}
-          // error
-          // helperText="Incorrect text"
+          error={Object.keys(errors).length > 0}
+          helperText={errors.micName}
           FormHelperTextProps={{
             className: classes.error,
           }}
@@ -121,8 +132,8 @@ function CreateMicPage() {
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
-              // error
-              // helperText="Incorrect text"
+              error={Object.keys(errors).length > 0}
+              helperText={errors.date}
               FormHelperTextProps={{
                 className: classes.error,
               }}
@@ -154,6 +165,8 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
+          error={Object.keys(errors).length > 0}
+          helperText={errors.hostName}
         />
         <TextField
           id="venue"
@@ -165,6 +178,8 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
+          error={Object.keys(errors).length > 0}
+          helperText={errors.venue}
         />
         <TextField
           id="adress"
@@ -176,6 +191,8 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
+          error={Object.keys(errors).length > 0}
+          helperText={errors.adress}
         />
         <span>
           <div style={{ width: "150px" }}>
@@ -189,6 +206,8 @@ function CreateMicPage() {
               FormHelperTextProps={{
                 className: classes.error,
               }}
+              error={Object.keys(errors).length > 0}
+              helperText={errors.city}
             />
           </div>
           <div style={{ width: "150px" }}>
@@ -201,8 +220,8 @@ function CreateMicPage() {
               FormHelperTextProps={{
                 className: classes.error,
               }}
-              // error
-              // helperText="Incorrect text"
+              error={Object.keys(errors).length > 0}
+              helperText={errors.postal}
             />
           </div>
         </span>
@@ -216,11 +235,13 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
+          error={Object.keys(errors).length > 0}
+          helperText={errors.payment}
         />
         <TextField
           id="capacity"
           type="text"
-          label="Number of max comedians for the mic"
+          label="Total number of comedians (max 40)"
           fullWidth
           value={values.capacity}
           onChange={handleChange}
@@ -228,8 +249,8 @@ function CreateMicPage() {
           FormHelperTextProps={{
             className: classes.error,
           }}
-          // error={capacityError === "" ? false : true}
-          // helperText={capacityError === "" ? "" : capacityError}
+          error={Object.keys(errors).length > 0}
+          helperText={errors.capacity}
         />
 
         <TextField
