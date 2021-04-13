@@ -3,9 +3,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { KeyboardDatePicker, KeyboardTimePicker } from "@material-ui/pickers";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import { useMutation } from "@apollo/client";
 import { ADD_MIC } from "../queries/queries";
+import MicCreated from "./MicCreated";
 
 const useStyles = makeStyles({
   root: {
@@ -27,13 +29,15 @@ const useStyles = makeStyles({
 function CreateMicPage() {
   const [errors, setErrors] = useState({});
   const [date, setDate] = useState(new Date());
+  const [success, setSuccess] = useState(false);
 
   const classes = useStyles();
 
   const [addMic, { loading }] = useMutation(ADD_MIC, {
     update(proxy, result) {
-      console.log(result);
-      //here goes the set modal to true
+      setSuccess(true);
+      setErrors({});
+
       setValues({
         micName: "",
         hostName: "",
@@ -65,6 +69,9 @@ function CreateMicPage() {
     notes: "",
   });
 
+  const adress =
+    "http://www.openthemics.com/mic/asfdasdflkasj;dlfkja;sdflkjas;dflk";
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.id]: e.target.value });
   };
@@ -94,6 +101,8 @@ function CreateMicPage() {
 
   return (
     <div className="create-mic-container">
+      {success && <MicCreated setSuccess={setSuccess} adress={adress} />}
+
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           id="micName"
@@ -255,6 +264,8 @@ function CreateMicPage() {
             className: classes.error,
           }}
         />
+        {loading && <CircularProgress />}
+
         <Button type="submit" variant="contained" className={classes.btn}>
           Create Mic
         </Button>
