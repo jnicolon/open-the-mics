@@ -29,12 +29,27 @@ const useStyles = makeStyles({
 function CreateMicPage() {
   const [errors, setErrors] = useState({});
   const [date, setDate] = useState(new Date());
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
+  const [url, setUrl] = useState("");
+
+  const [values, setValues] = useState({
+    micName: "",
+    hostName: "",
+    venue: "",
+    adress: "",
+    city: "",
+    postal: "",
+    payment: "",
+    capacity: "",
+    notes: "",
+  });
 
   const classes = useStyles();
 
   const [addMic, { loading }] = useMutation(ADD_MIC, {
     update(proxy, result) {
+      setUrl(result.data.createMic.hostUrl);
+
       setSuccess(true);
       setErrors({});
 
@@ -56,21 +71,6 @@ function CreateMicPage() {
       }
     },
   });
-
-  const [values, setValues] = useState({
-    micName: "",
-    hostName: "",
-    venue: "",
-    adress: "",
-    city: "",
-    postal: "",
-    payment: "",
-    capacity: "",
-    notes: "",
-  });
-
-  const adress =
-    "http://www.openthemics.com/mic/asfdasdflkasj;dlfkja;sdflkjas;dflk";
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.id]: e.target.value });
@@ -97,11 +97,9 @@ function CreateMicPage() {
     setDate(new Date());
   };
 
-  //TODO: create mic modal with links
-
   return (
     <div className="create-mic-container">
-      {success && <MicCreated setSuccess={setSuccess} adress={adress} />}
+      {success && <MicCreated setSuccess={setSuccess} adress={url} />}
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField

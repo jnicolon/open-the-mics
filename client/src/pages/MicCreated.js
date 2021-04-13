@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   closePop: {
@@ -24,7 +25,9 @@ function MicCreated({ adress, setSuccess }) {
         Save this link!
       </Typography>
       <div className="pop-up-adress-container">
-        <Typography variant="subtitle2">{adress}</Typography>
+        <Typography variant="subtitle2">
+          http://www.openthemics.com/hostmics/{adress}
+        </Typography>
       </div>
 
       <br />
@@ -41,6 +44,10 @@ function MicCreated({ adress, setSuccess }) {
       <Typography variant="subtitle2" align="center">
         -Randomize order
       </Typography>
+      <br />
+      <Link to={`/hosts/${adress}`}>
+        <Typography variant="overline">Click here to go to the mic</Typography>
+      </Link>
       <p
         onClick={() => {
           setSuccess(false);
