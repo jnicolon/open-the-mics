@@ -76,6 +76,8 @@ function CreateMicPage() {
     setValues({ ...values, [e.target.id]: e.target.value });
   };
 
+  console.log(moment(date).format());
+
   const handleSubmit = (e) => {
     e.preventDefault();
 

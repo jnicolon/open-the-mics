@@ -32,4 +32,23 @@ const ADD_MIC = gql`
   }
 `;
 
-export { ADD_MIC };
+const GET_MICS = gql`
+  query getMics {
+    getMics {
+      id
+      micName
+      hostName
+      notes
+      date
+      capacity
+      hostUrl
+      adress
+      city
+      postal
+      venue
+      payment
+    }
+  }
+`;
+
+export { ADD_MIC, GET_MICS };
